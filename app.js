@@ -85,6 +85,10 @@ window.onload = function() {
             },
             scales: {
                 yAxes: [{
+                    ticks: {
+                      max: remainingHours,
+                      min: 0,
+                    },
                     display: true,
                     scaleLabel: {
                         display: true,
