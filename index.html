@@ -23,23 +23,27 @@
             return (Math.random() > 0.5 ? 1.0 : 2.0) * Math.round(Math.random() * 100);
         };
 
-        var barChartData = {
-            // labels: ["January", "February", "March", "April", "May", "June", "July"],
+        var data = '1234567'.split('').map(function() {
+          return randomScalingFactor();
+        });
+        console.log(data);
+
+        var ChartData = {
             labels: ["Sunday", "Monday", "Tueday", "Wednesday", "Thusday", "Friday", "Saturday"],
             datasets: [{
                 type: 'bar',
-                label: 'Dataset 1',
-                backgroundColor: "rgba(151,187,205,0.5)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()],
-                borderColor: 'white',
+                label: 'Actual',
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                data: data,
+                borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 2
             }, {
                 type: 'line',
                 tension: 0,
-                label: '',
-                // backgroundColor: "rgba(151,187,205,0.5)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()],
-                // borderColor: 'white',
+                label: 'Velocity',
+                backgroundColor: "rgba(255,99,132, 0)",
+                data: data,
+                borderColor: "rgba(255,99,132,1)",
                 // borderWidth: 2
             }, ]
 
@@ -48,7 +52,7 @@
             var ctx = document.getElementById("canvas").getContext("2d");
             window.myBar = new Chart(ctx, {
                 type: 'bar',
-                data: barChartData,
+                data: ChartData,
                 options: {
                     responsive: true,
                     title: {
