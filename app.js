@@ -1,11 +1,12 @@
 var sprint = ["Sunday", "Monday", "Tueday", "Wednesday", "Thusday", "Friday", "Saturday"];
 var remainingHours = 30;
-var actualBurnData = [1, 2, 3, 4, 5];
+var actualBurnData = [0, 1, 2, 9];
 var sprintLength = sprint.length;
 var actualBurnDays = actualBurnData.length;
 var remainingDay = sprintLength - actualBurnDays;
 var averageBurnValue, expectedBurnValue;
 
+var startWork = false;
 var actualData = generageActualData();
 var averageData = generateAverageData();
 var expectedData = generateExpectedData();
@@ -23,9 +24,10 @@ function generateAverageData() {
   });
   var average = sum / actualBurnDays;
   averageBurnValue = average;
+  startWork = average > 0;
   var data = [];
   i = 0;
-  while (true) {
+  while (true && startWork) {
     data[i] = remainingHours - average * (i+1);
     if (data[i] <= 0) break;
     i++;
