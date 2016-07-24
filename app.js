@@ -1,17 +1,49 @@
-var randomScalingFactor = function() {
-    return (Math.random() > 0.5 ? 1.0 : 2.0) * Math.round(Math.random() * 100);
-};
+var sprint = ["Sunday", "Monday", "Tueday", "Wednesday", "Thusday", "Friday", "Saturday"];
+var remainingHours = 30;
+var actualBurnData = [1, 2, 3, 4, 5];
+var sprintLength = sprint.length;
+var actualBurnDays = actualBurnData.length;
+var remainingDay = sprintLength - actualBurnDays;
 
-var data = '1234567'.split('').map(function() {
-  return randomScalingFactor();
-});
+var actualData = generageActualData();
+var averageData = generateAverageData();
+var expectedData = generateExpectedData();
 
-var actualData = data;
-var averageData = data;
-var expectedData = [null, null, null, null, data[4], 80, 20];
+function generageActualData() {
+  return actualBurnData.map(function(x) {
+    return remainingHours - (+x);
+  });
+}
+
+function generateAverageData() {
+  var sum = 0;
+  actualBurnData.forEach(function(value) {
+    sum += value;
+  });
+  var average = sum / actualBurnDays;
+  var data = [];
+  i = 0;
+  while (true) {
+    data[i] = remainingHours - average * (i+1);
+    if (data[i] <= 0) break;
+    i++;
+  }
+  return data;
+}
+
+function generateExpectedData() {
+  var data = [];
+  data[actualBurnDays - 1] = actualData[actualBurnDays - 1];
+  var rate = (data[actualBurnDays - 1] - 0) / remainingDay;
+  for (var i = actualBurnDays; i < sprintLength - 1; i++) {
+    data[i] = data[i - 1] - rate;
+  }
+  data[sprintLength - 1] = 0;
+  return data;
+}
 
 var ChartData = {
-    labels: ["Sunday", "Monday", "Tueday", "Wednesday", "Thusday", "Friday", "Saturday"],
+    labels: sprint.concat(['...', '...', '...']),
     datasets: [{
         type: 'bar',
         label: 'Actual',
