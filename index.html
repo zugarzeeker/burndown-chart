@@ -40,13 +40,20 @@
             }, {
                 type: 'line',
                 tension: 0,
-                label: 'Velocity',
+                label: 'Velocity | Estimated',
                 backgroundColor: "rgba(255,99,132, 0)",
                 data: data,
                 borderColor: "rgba(255,99,132,1)",
-                // borderWidth: 2
-            }, ]
-
+                borderWidth: 2
+            }, {
+                type: 'line',
+                tension: 0,
+                label: 'Expected',
+                backgroundColor: "rgba(255,99,132, 0)",
+                data: [null, null, null, null, data[4], 80, 20],
+                borderColor: "rgba(255, 206, 86, 1)",
+            }
+          ]
         };
         window.onload = function() {
             var ctx = document.getElementById("canvas").getContext("2d");
