@@ -4,6 +4,7 @@ var actualBurnData = [1, 2, 3, 4, 5];
 var sprintLength = sprint.length;
 var actualBurnDays = actualBurnData.length;
 var remainingDay = sprintLength - actualBurnDays;
+var averageBurnValue, expectedBurnValue;
 
 var actualData = generageActualData();
 var averageData = generateAverageData();
@@ -21,6 +22,7 @@ function generateAverageData() {
     sum += value;
   });
   var average = sum / actualBurnDays;
+  averageBurnValue = average;
   var data = [];
   i = 0;
   while (true) {
@@ -35,6 +37,7 @@ function generateExpectedData() {
   var data = [];
   data[actualBurnDays - 1] = actualData[actualBurnDays - 1];
   var rate = (data[actualBurnDays - 1] - 0) / remainingDay;
+  expectedBurnValue = rate;
   for (var i = actualBurnDays; i < sprintLength - 1; i++) {
     data[i] = data[i - 1] - rate;
   }
@@ -88,7 +91,35 @@ window.onload = function() {
                         labelString: 'Hours'
                     }
                 }]
-            }
+            },
+            tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItems, data) {
+                        switch (tooltipItems.datasetIndex) {
+                          case 0:
+                            return remainingHours - (+tooltipItems.yLabel) + ' hr';
+                          case 1:
+                            return averageBurnValue + ' hr / day';
+                          default:
+                            return expectedBurnValue + ' hr / day';
+                            break;
+                        }
+                    },
+                    title: function(tooltipItems) {
+                        switch (tooltipItems[0].datasetIndex) {
+                          case 0:
+                            return 'Actual ' + '(' + tooltipItems[0].xLabel + ')';
+                          case 1:
+                            return 'Average (Velocity)';
+                          default:
+                            return 'Expected (Velocity)';
+                            break;
+                        }
+                    },
+                }
+            },
         }
     });
 };
